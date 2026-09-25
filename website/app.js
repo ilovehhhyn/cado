@@ -59,16 +59,3 @@ savingsForm.addEventListener('input', updateSavings);
 savingsForm.addEventListener('submit', event => event.preventDefault());
 updateSavings();
 
-// Small bounded variations keep the field playful without moving reading targets.
-let fieldArrangement = 0;
-document.getElementById('reshuffle').addEventListener('click', () => {
-  fieldArrangement += 1;
-  document.querySelectorAll('.specimen').forEach((specimen, i) => {
-    const seed = (fieldArrangement * 37 + i * 53) % 101;
-    const angle = seed - 50;
-    const shiftX = (seed % 19) - 9;
-    const shiftY = ((seed * 3) % 25) - 12;
-    specimen.style.transform = `translate(${shiftX}px, ${shiftY}px) rotate(${angle}deg)`;
-  });
-  document.getElementById('shuffle-status').textContent = `Field reshuffled. Arrangement ${fieldArrangement + 1}.`;
-});
