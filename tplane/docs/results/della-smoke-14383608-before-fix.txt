@@ -1,0 +1,35 @@
+tplane step-00000 headroom: gpu memory headroom is 9% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 8% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 7% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 6% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 4% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 3% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 2% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+tplane step-00000 headroom: gpu memory headroom is 1% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+[W924 15:58:58.605311961 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+[W924 15:58:58.605570707 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+tplane step-00000 attempt 1 failed mask infra/oom_gpu@train
+tplane step-00001 headroom: gpu memory headroom is 1% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+[W924 15:58:58.622884290 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+[W924 15:58:58.623047958 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+tplane step-00001 attempt 1 failed mask infra/oom_gpu@train
+tplane step-00002 headroom: gpu memory headroom is 1% of 80.0 GiB, below the 10% warning threshold while the longest sample is 0 tokens; lower max_tokens_per_gpu or gpu_memory_utilization before the next step
+[W924 15:58:58.625334076 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+[W924 15:58:58.625479239 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1073741824 bytes (free: 919535616, total: 85118156800).
+tplane step-00002 attempt 1 failed mask infra/oom_gpu@train
+records written to /scratch/gpfs/ARORA/hh9077/runs/tplane-smoke-14383608; inspect with: tp show /scratch/gpfs/ARORA/hh9077/runs/tplane-smoke-14383608 --failures-only
+unit        attempt  kind        outcome  class  cause    stage  peak_gpu       decision  cost
+step-00000  1        train_step  failed   infra  oom_gpu  train  79.1/80.0 GiB  mask      0.4 gpu-min
+step-00001  1        train_step  failed   infra  oom_gpu  train  79.1/80.0 GiB  mask      0.0 gpu-min
+step-00002  1        train_step  failed   infra  oom_gpu  train  79.1/80.0 GiB  mask      0.0 gpu-min
+failures: 3 of 3 units; infra 3, agent 0, grader 0, timeout 0; gpu-hours lost 0.01
+evidence step-00000/1: exception_type=OutOfMemoryError; message=CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 79.27 GiB of which 876.94 MiB is free. Including non-PyTorch memory, this process has 78.41 GiB memory in use. Of the a
+evidence step-00001/1: exception_type=OutOfMemoryError; message=CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 79.27 GiB of which 876.94 MiB is free. Including non-PyTorch memory, this process has 78.41 GiB memory in use. Of the a
+evidence step-00002/1: exception_type=OutOfMemoryError; message=CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 79.27 GiB of which 876.94 MiB is free. Including non-PyTorch memory, this process has 78.41 GiB memory in use. Of the a
+   Partition=gputest AllocNode:Sid=della-pli:2709603
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=della-l07g7
+   ReqTRES=cpu=4,mem=16G,node=1,billing=64,gres/gpu=1
+   AllocTRES=cpu=4,mem=16G,node=1,billing=64,gres/gpu=1
+name, memory.total [MiB]
+NVIDIA A100-SXM4-80GB, 81920 MiB
