@@ -36,3 +36,35 @@ document.querySelectorAll('[data-copy]').forEach(button => button.addEventListen
     button.textContent = 'Select & copy';
   }
 }));
+
+// A user-defined scenario, independent of the observed rollout failure statistics.
+const savingsForm = document.getElementById('savings-form');
+const savingsInputs = ['gpus', 'rate', 'late', 'early', 'recovery'].map(name => document.getElementById(`savings-${name}`));
+const usd = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
+function updateSavings() {
+  const valid = savingsInputs.every(input => input.validity.valid && Number.isFinite(input.valueAsNumber));
+  document.getElementById('savings-error').hidden = valid;
+  savingsInputs.forEach(input => input.setAttribute('aria-invalid', String(!input.validity.valid)));
+  const total = document.getElementById('savings-total');
+  if (!valid) {
+    total.textContent = '—';
+    document.getElementById('savings-formula').textContent = 'Complete the inputs to calculate an estimate.';
+    document.querySelector('.time-comparison').hidden = true;
+    return;
+  }
+  const [gpus, rate, late, early, recovery] = savingsInputs.map(input => input.valueAsNumber);
+  const hours = Math.max(0, late - early - recovery);
+  const intervention = early + recovery;
+  const scale = Math.max(late, intervention, 1);
+  total.textContent = usd.format(gpus * rate * hours);
+  document.getElementById('savings-formula').textContent = `${number.format(gpus)} GPUs × $${rate.toFixed(2)}/hour × ${number.format(hours)} hours of avoided waste`;
+  document.querySelector('.time-comparison').hidden = false;
+  document.getElementById('time-without').textContent = `${number.format(late)} h`;
+  document.getElementById('time-with').textContent = `${number.format(intervention)} h`;
+  document.getElementById('time-without-bar').style.width = `${late / scale * 100}%`;
+  document.getElementById('time-with-bar').style.width = `${intervention / scale * 100}%`;
+}
+savingsForm.addEventListener('input', updateSavings);
+savingsForm.addEventListener('submit', event => event.preventDefault());
+updateSavings();
