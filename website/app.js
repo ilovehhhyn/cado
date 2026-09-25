@@ -1,13 +1,3 @@
-const outcomes = {
-  clean: ['Generate a rollout', 'Reward recorded: 1.0', 'Clean outcome', 'failure = None', 'Keep the reward', 'A valid signal for the trainer.'],
-  infra: ['Generate a rollout', 'CUDA out of memory', 'Infrastructure failure', 'failure.failure_class = "infra"', 'Mask the unit', 'Keep this failure out of the reward.'],
-  grader: ['Grade a rollout', 'No reward returned', 'Grader failure', 'failure.kind = "missing_reward"', 'Mask the unit', 'A missing reward is not a zero.']
-};
-const fields = ['flow-work', 'flow-event', 'flow-class', 'flow-code', 'flow-decision', 'flow-result'];
-document.querySelectorAll('[data-outcome]').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('[data-outcome]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-  outcomes[button.dataset.outcome].forEach((text, i) => { document.getElementById(fields[i]).textContent = text; });
-}));
 const scores = {easy: [87.38,80.66,80.66,86.55,92.00], hard: [73.73,70.75,69.53,68.90,94.15]};
 const labels = ['tplane', 'RFT-FM', 'Anomaly Transformer', 'TranAD', 'Flag every run faulty'];
 document.querySelectorAll('[data-difficulty]').forEach(button => button.addEventListener('click', () => {
@@ -68,3 +58,17 @@ function updateSavings() {
 savingsForm.addEventListener('input', updateSavings);
 savingsForm.addEventListener('submit', event => event.preventDefault());
 updateSavings();
+
+// Small bounded variations keep the field playful without moving reading targets.
+let fieldArrangement = 0;
+document.getElementById('reshuffle').addEventListener('click', () => {
+  fieldArrangement += 1;
+  document.querySelectorAll('.specimen').forEach((specimen, i) => {
+    const seed = (fieldArrangement * 37 + i * 53) % 101;
+    const angle = seed - 50;
+    const shiftX = (seed % 19) - 9;
+    const shiftY = ((seed * 3) % 25) - 12;
+    specimen.style.transform = `translate(${shiftX}px, ${shiftY}px) rotate(${angle}deg)`;
+  });
+  document.getElementById('shuffle-status').textContent = `Field reshuffled. Arrangement ${fieldArrangement + 1}.`;
+});
